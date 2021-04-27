@@ -3,6 +3,7 @@
 <?php
 	#===================================================================
 	print("Proces 1 rozpoczal swoje dzialanie\n");
+	while(true) {
 	$line = readline("Podaj wiadomosc do przekonwertowania ");
 	
 	$port 	= 10002;
@@ -35,4 +36,5 @@
 	// 	print_r( $res );
 	// }
 	#===================================================================
+	}
 ?>
