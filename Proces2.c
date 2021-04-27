@@ -2,12 +2,29 @@
 /* Na podstawie: http://xmlrpc-c.sourceforge.net  */
 /* ********************************************** */
 #define WIN32_LEAN_AND_MEAN  /* wymagane przez xmlrpc-c/server_abyss.h */
+#define NAME "Xmlrpc-c Test Client"
+#define VERSION "1.0"
 
 #include <stdlib.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <xmlrpc-c/base.h>
+#include <xmlrpc-c/client.h>
 #include <stdio.h>
 #include <xmlrpc-c/base.h>
 #include <xmlrpc-c/server.h>
 #include <xmlrpc-c/server_abyss.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <xmlrpc-c/base.h>
+#include <xmlrpc-c/client.h>
+static void 
+dieIfFaultOccurred (xmlrpc_env * const envP) {
+    if (envP->fault_occurred) {
+        fprintf( stderr, "ERROR: %s (%d)\n", envP->fault_string, envP->fault_code );
+        exit(1);
+    }
+}
 //======================================================================
 static xmlrpc_value * sample_add(
 			xmlrpc_env *   const envP,
@@ -37,11 +54,60 @@ static xmlrpc_value * sample_add(
     // z = x + y;
 
     printf("\nProces 2 wita sie i przesyla dalej wiadomosc %s\n",x);
+      snd((char *)x);
+
+
+
+
+
 
 
     /* Zwracamy wynik *************************************************/
+
     
     return xmlrpc_build_value(envP, "i", 883662149);
+}
+
+
+int snd(char * snd)
+{
+    const char * const serverUrl = "http://127.0.0.1:10003/RPC2";
+    const char * const methodName = "post";
+	
+	/* zmienne niezainicjowane ****************************************/
+    xmlrpc_env env;
+    xmlrpc_value * resultP;
+    xmlrpc_int32 sum;
+    
+    /* inicjujemy srodowisko ******************************************/
+    xmlrpc_env_init(&env);
+
+    /* inicjujemy xml-rpc po stronie klienta **************************/
+    xmlrpc_client_init2(&env, XMLRPC_CLIENT_NO_FLAGS, NAME, VERSION, NULL, 0);
+    dieIfFaultOccurred(&env);	// sprawdzamy, czy wystapil blad 
+
+    /* wywolujemy zdalna procedure ************************************/
+    /* ("ii") oznacza format danych, tutaj: 2 x int *******************/
+    resultP = xmlrpc_client_call(&env, serverUrl, methodName, "(s)",snd);
+    // dieIfFaultOccurred(&env);
+    
+    // /* pobieramy wynik ************************************************/
+    // xmlrpc_read_int(&env, resultP, &sum);
+    // dieIfFaultOccurred(&env);
+    
+    // /* wypisujemy wynik ***********************************************/
+    // printf("Wynik: %d\n", sum);
+    
+    // /* dekrementujemy licznik referencji ******************************/
+    // xmlrpc_DECREF(resultP);
+
+    /* czyscimy srodowisko ********************************************/
+    xmlrpc_env_clean(&env);
+    
+    /* konczymy prace klienta *****************************************/
+    xmlrpc_client_cleanup();
+    return 0;
+
 }
 //======================================================================
 int main( void ){
