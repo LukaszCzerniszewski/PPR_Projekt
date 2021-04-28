@@ -20,5 +20,6 @@ proces2: Proces2.c
 	
 
 clean:
-	rm -f proces2.o 
+	rm Proces2.o
+	rm client.o
 

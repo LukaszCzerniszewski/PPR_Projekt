@@ -1,4 +1,5 @@
 #!/bin/bash
+$(rm -f "procesy.txt")
 $(ps -a >> procesy.txt)
 cat procesy.txt | while read linia
 do 
@@ -11,4 +12,7 @@ do
 
     $(kill -9 $(echo $linia | cut -d' ' -f1-1))
 done
-(rm procesy.txt)
+
+$(rm -f "procesy.txt")
+$(rm -f Proces2.o)
+$(rm -f client.o)
