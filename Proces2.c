@@ -4,7 +4,6 @@
 #define WIN32_LEAN_AND_MEAN  /* wymagane przez xmlrpc-c/server_abyss.h */
 #define NAME "Xmlrpc-c Test Client"
 #define VERSION "1.0"
-
 #include <stdlib.h>
 #include <stdlib.h>
 #include <stdio.h>
