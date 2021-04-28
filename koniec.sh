@@ -11,4 +11,4 @@ do
 
     $(kill -9 $(echo $linia | cut -d' ' -f1-1))
 done
-$(rm procesy.txt)
+(rm procesy.txt)
